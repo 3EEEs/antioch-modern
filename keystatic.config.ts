@@ -3,8 +3,12 @@ import { config, fields, singleton, collection } from '@keystatic/core';
 export default config({
   storage: { 
     kind: 'cloud',
-    project: '3EEEs/antioch-modern' // Paste the exact project name from Keystatic Cloud here
   },
+  // 2. The project name gets its own dedicated block
+  cloud: {
+    project: 'antioch/antioch-modern',
+  },
+
   singletons: {
     homePage: singleton({
       label: 'Home Page',
