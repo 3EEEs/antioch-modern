@@ -9,6 +9,11 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  output: 'static', // Astro 6 handles the server routes automatically now!
+  output: 'static',
   adapter: netlify(),
+  
+  // ADDED: Instant redirect from /admin to the CMS
+  redirects: {
+    '/admin': '/keystatic'
+  }
 });

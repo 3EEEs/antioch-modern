@@ -1,7 +1,10 @@
 import { config, fields, singleton, collection } from '@keystatic/core';
 
 export default config({
-  storage: { kind: 'local' },
+  storage: { 
+    kind: 'github',
+    repo: '3EEEs/antioch-modern' // Make sure this matches your exact repo name!
+  },
   singletons: {
     homePage: singleton({
       label: 'Home Page',
