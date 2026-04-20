@@ -1,11 +1,78 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Carousel from "../components/Carousel.tsx";
+import SocialGrid from "../components/SocialGrid.astro";
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const reader = createReader(process.cwd(), keystaticConfig);
+
+// 1. Fetch Data
+const homeData = await reader.singletons.homePage.read();
+const galleryEntries = await reader.collections.socialGallery.all();
+
+// 2. Map Carousel Data (with fallbacks)
+const carouselImages = homeData?.carouselImages?.length 
+  ? homeData.carouselImages 
+  : [
+      "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=2000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2000&auto=format&fit=crop"
+    ];
+
+// 3. Map Social Grid Data (with fallbacks)
+const socialImages = galleryEntries.length > 0
+  ? galleryEntries.map(entry => ({
+      image: entry.entry.image || "",
+      link: entry.entry.link || undefined
+    }))
+  : [
+      { image: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=800" },
+      { image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800" },
+      { image: "https://images.unsplash.com/photo-1544928147-79a2dbc1f389?q=80&w=800" },
+      { image: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=800" }
+    ];
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title="Antioch | Oregon State">
+  <main>
+    <Hero 
+      title={homeData?.heroTitle || "Brotherhood"} 
+      description={homeData?.heroDescription || "Oregon State University's premier Christian fraternity."}
+      backgroundImageUrl={homeData?.heroImage || "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=2000&auto=format&fit=crop"}
+    />
+    
+    <section class="py-32 px-6 max-w-4xl mx-auto text-center">
+      <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight text-zinc-900 mb-8">
+        More than just a house.
+      </h2>
+      <p class="text-xl md:text-2xl text-zinc-500 font-medium leading-relaxed">
+        We are a community dedicated to spiritual growth, academic excellence, and lifelong bonds. Experience college differently.
+      </p>
+    </section>
+
+    <section class="pb-32 max-w-7xl mx-auto overflow-hidden">
+      <Carousel client:load images={carouselImages} />
+    </section>
+
+    <section class="py-24 px-6 max-w-7xl mx-auto">
+      <div class="flex justify-between items-end mb-12">
+        <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter">Life at Antioch</h2>
+        <a href="https://instagram.com/your_handle" target="_blank" class="text-orange-600 font-bold tracking-wide hover:text-zinc-900 transition-colors">
+          @ANTIOCH_OSU →
+        </a>
+      </div>
+      
+      <SocialGrid images={socialImages} />
+    </section>
+
+    <section class="py-32 bg-zinc-900 text-white text-center px-6">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-8">Ready to Join?</h2>
+        <a href="/apply" class="inline-block bg-orange-600 text-white px-10 py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-white hover:text-zinc-900 transition-colors duration-300">
+          Start Application
+        </a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

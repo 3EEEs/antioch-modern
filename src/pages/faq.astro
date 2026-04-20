@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FaqAccordion from "../components/FaqAccordion.astro";
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
+
+const reader = createReader(process.cwd(), keystaticConfig);
+// Fetch FAQs from Keystatic
+const faqEntries = await reader.collections.faqs.all();
+const faqs = faqEntries.map(entry => entry.entry);
+
+// Fallback data if Keystatic is empty
+const defaultFaqs = [
+  { question: "What are the requirements to join?", answer: "We look for men who are actively pursuing their faith and enrolled at OSU or Linn-Benton." },
+  { question: "How much is rent?", answer: "Our housing costs are highly competitive with on-campus living. Please apply for current rates." }
+];
+
+const displayFaqs = faqs.length > 0 ? faqs : defaultFaqs;
+---
+<BaseLayout title="FAQ | Antioch">
+  <main class="pt-32 pb-24 px-6 max-w-5xl mx-auto">
+    <div class="text-center mb-20">
+      <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6">Questions?</h1>
+      <p class="text-xl text-zinc-500">Everything you need to know about living at Antioch.</p>
+    </div>
+
+    <FaqAccordion faqs={displayFaqs} />
+  </main>
+</BaseLayout>

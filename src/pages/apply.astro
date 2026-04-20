@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const applyData = await reader.singletons.applyPage.read();
+
+// Fallback just in case it isn't filled out in Keystatic yet
+const externalFormUrl = applyData?.formUrl || "#";
+---
+<BaseLayout title="Apply | Antioch">
+  <main class="min-h-[80vh] flex items-center justify-center px-6 pt-20">
+    <div class="bg-zinc-900 text-white rounded-[3rem] p-12 md:p-24 max-w-4xl w-full text-center shadow-2xl relative overflow-hidden">
+      
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-orange-600 rounded-full blur-3xl opacity-20 pointer-events-none"></div>
+
+      <div class="relative z-10">
+        <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6">Take the Next Step</h1>
+        <p class="text-xl md:text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+          Applications for the upcoming term are currently open. Fill out our intake form and our recruitment chair will reach out to schedule a tour.
+        </p>
+
+        <a 
+          href={externalFormUrl} 
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block bg-orange-600 text-white px-12 py-5 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-white hover:text-zinc-900 hover:scale-105 transition-all duration-300 shadow-xl shadow-orange-600/20"
+        >
+          Open Application Form
+        </a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

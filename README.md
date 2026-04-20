@@ -1,46 +1,20 @@
-# Astro Starter Kit: Basics
+# Antioch House Website
 
-```sh
-npm create astro@latest -- --template basics
-```
+A blazing-fast, static website for Antioch House, a Christian fraternity at Oregon State University. This site serves as an information hub for prospective members, current residents, and the community.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 🚀 Tech Stack
 
-## 🚀 Project Structure
+We utilize a modern, simplified static stack for maximum performance and easy content editing:
 
-Inside of your Astro project, you'll see the following folders and files:
+* **Framework:** [Astro](https://astro.build/) (Static Site Generation)
+* **UI Components:** React & Astro native components
+* **Styling:** CSS Modules & Tailwind CSS
+* **Content Management:** [Keystatic](https://keystatic.com/) (Git-based CMS)
+* **Hosting:** Netlify
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+## 🛠️ Local Development Setup
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/3EEEs/antioch-v2.git](https://github.com/3EEEs/antioch-v2.git)
+   cd antioch-v2

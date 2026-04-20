@@ -1,0 +1,36 @@
+---
+import Header from "../components/Header.astro";
+import '../styles/global.css'; // Ensure Tailwind is loaded
+
+interface Props {
+  title?: string;
+}
+
+const { title = "Antioch House" } = Astro.props;
+
+const navLinks = [
+  { title: "Home", url: "/" },
+  { title: "Brotherhood", url: "/about" },
+  { title: "FAQ", url: "/faq" }
+];
+---
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-zinc-50 text-zinc-900 antialiased selection:bg-orange-500 selection:text-white">
+    <Header siteTitle="Antioch" navLinks={navLinks} applyUrl="/apply" />
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,39 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  backgroundImageUrl?: string;
+}
+
+const { 
+  title = "Welcome", 
+  description = "", 
+  backgroundImageUrl = "" 
+} = Astro.props;
+---
+
+<section class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+  <div class="absolute inset-0 w-full h-full">
+    <img 
+      src={backgroundImageUrl} 
+      alt="Hero background" 
+      class="object-cover w-full h-full scale-105 animate-[pulse_20s_ease-in-out_infinite_alternate]"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-zinc-900/60 via-zinc-900/40 to-zinc-900/80"></div>
+  </div>
+
+  <div class="relative z-10 text-center px-6 max-w-5xl mx-auto mt-16">
+    <h1 class="text-6xl sm:text-8xl md:text-[9rem] font-extrabold text-white tracking-tighter uppercase leading-[0.85] drop-shadow-2xl mb-8">
+      {title}
+    </h1>
+    {description && (
+      <p class="text-lg md:text-2xl text-zinc-200 font-medium max-w-2xl mx-auto leading-relaxed">
+        {description}
+      </p>
+    )}
+  </div>
+  
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 animate-bounce">
+    ↓ Scroll
+  </div>
+</section>

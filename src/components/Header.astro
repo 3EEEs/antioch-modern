@@ -1,0 +1,47 @@
+---
+export interface NavLink {
+  title: string;
+  url: string;
+}
+
+export interface Props {
+  siteTitle?: string;
+  navLinks?: NavLink[];
+  applyUrl?: string;
+}
+
+const { navLinks = [], applyUrl = "/apply", siteTitle = "ANTIOCH" } = Astro.props as Props;
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<header class="fixed top-0 left-0 w-full z-50 bg-white border-b border-zinc-200 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    
+    <a href="/" class="text-xl font-black tracking-tighter text-zinc-900 uppercase hover:text-orange-600 transition-colors">
+      {siteTitle}
+    </a>
+
+    <nav class="hidden md:flex items-center gap-10">
+      {navLinks.map((link) => {
+        const linkPath = link.url.replace(/\/$/, "") || "/";
+        const isActive = currentPath === linkPath;
+        return (
+          <a 
+            href={link.url} 
+            class={`text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-300 ${isActive ? 'text-orange-600' : 'text-zinc-500 hover:text-zinc-900'}`}
+          >
+            {link.title}
+          </a>
+        );
+      })}
+    </nav>
+
+    <a 
+      href={applyUrl} 
+      class="px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.15em] border border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white transition-colors duration-300"
+    >
+      Apply Now
+    </a>
+    
+  </div>
+</header>
