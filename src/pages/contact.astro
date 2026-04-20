@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const leadershipEntries = await reader.collections.leadership.all();
+
+const leaders = leadershipEntries.length > 0 
+  ? leadershipEntries.map(e => e.entry)
+  : [
+      { name: "John Doe", role: "President", email: "president@antioch.com", image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=400&h=400&fit=crop" },
+      { name: "James Smith", role: "Vice President", email: "vp@antioch.com", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&h=400&fit=crop" },
+      { name: "Mike Johnson", role: "Recruitment Chair", email: "recruitment@antioch.com", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&h=400&fit=crop" }
+    ];
+---
+
+<BaseLayout title="Contact Us | Antioch">
+  <main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+    
+    <div class="text-center mb-24 max-w-3xl mx-auto">
+      <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tighter text-zinc-900 mb-6">Get in Touch</h1>
+      <p class="text-xl text-zinc-500">
+        Have questions about the house, rent, or rushing? Reach out to our leadership team directly.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      {leaders.map(leader => (
+        <div class="border border-zinc-200 rounded-[2rem] p-8 text-center bg-white hover:border-orange-600 transition-colors duration-300">
+          
+          <div class="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-zinc-50">
+            <img 
+              src={leader.image || "https://via.placeholder.com/400"} 
+              alt={leader.name} 
+              class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+            />
+          </div>
+          
+          <h3 class="text-2xl font-bold text-zinc-900 mb-1">{leader.name}</h3>
+          <p class="text-sm font-bold uppercase tracking-widest text-zinc-400 mb-8">{leader.role}</p>
+          
+          <a 
+            href={`mailto:${leader.email}`}
+            class="inline-block w-full py-3 rounded-full text-xs font-bold uppercase tracking-[0.15em] border border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white transition-colors duration-300"
+          >
+            Email {leader.name.split(' ')[0]}
+          </a>
+          
+        </div>
+      ))}
+    </div>
+
+  </main>
+</BaseLayout>

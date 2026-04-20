@@ -1,33 +1,68 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const timelineEntries = await reader.collections.historyTimeline.all();
+
+// Sort timeline by year (ascending)
+const history = timelineEntries.length > 0 
+  ? timelineEntries.map(e => e.entry).sort((a, b) => parseInt(a.year) - parseInt(b.year))
+  : [
+      { year: "2009", title: "The Beginning", description: "Antioch House was founded by a small group of men dedicated to creating a Christian brotherhood on campus." },
+      { year: "2014", title: "A New Home", description: "Moved into our second location, allowing us to house over 30 men and host larger community events." },
+      { year: "2020", title: "Resilience", description: "Navigated a changing campus environment while strengthening our core small groups and academic focus." }
+    ];
 
 const values = [
-  { title: "Brotherhood", text: "Lifelong relationships built on shared values and mutual respect." },
-  { title: "Discipleship", text: "Growing together in faith and challenging each other daily." },
-  { title: "Excellence", text: "Pushing the boundaries in our academic and personal lives." },
+  { title: "Brotherhood", text: "Lifelong relationships built on shared values, vulnerability, and mutual respect." },
+  { title: "Discipleship", text: "Growing together in faith, studying the Word, and challenging each other daily." },
+  { title: "Academics", text: "Pushing the boundaries in our studies. Iron sharpens iron in the classroom as well." },
+  { title: "Service", text: "Looking outward to the Corvallis community and finding ways to be the hands and feet of Jesus." },
 ];
 ---
+
 <BaseLayout title="About Us | Antioch">
-  <main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+  <main class="pt-32 pb-24">
     
-    <div class="max-w-4xl mb-24">
-      <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-8">Our Mission</h1>
+    <div class="px-6 max-w-4xl mx-auto text-center mb-24">
+      <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter text-zinc-900 mb-8">Our Foundation</h1>
       <p class="text-2xl text-zinc-500 leading-relaxed font-medium">
-        Antioch House is more than a residence. We are a community of men at Oregon State University dedicated to forging iron-sharpens-iron relationships. 
+        Raising up men for Christ through Discipleship, Academics, and Brotherhood for over 15 years.
       </p>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-12 mt-24">
-      {values.map(value => (
-        <div class="bg-white p-10 rounded-3xl shadow-sm border border-zinc-100 hover:shadow-xl transition-shadow duration-300">
-          <div class="w-12 h-12 bg-orange-100 rounded-full mb-6 flex items-center justify-center">
-             <div class="w-4 h-4 bg-orange-600 rounded-full animate-pulse" />
+    <section class="max-w-7xl mx-auto px-6 mb-32">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {values.map(value => (
+          <div class="p-10 border border-zinc-200 rounded-[2rem] bg-white">
+            <h3 class="text-xl font-bold uppercase tracking-widest text-zinc-900 mb-4">{value.title}</h3>
+            <p class="text-zinc-500 leading-relaxed">{value.text}</p>
           </div>
-          <h3 class="text-2xl font-bold text-zinc-900 mb-4">{value.title}</h3>
-          <p class="text-zinc-500 text-lg">{value.text}</p>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-3xl mx-auto px-6 border-t border-zinc-200 pt-24">
+      <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-zinc-900 mb-16 text-center">Our History</h2>
+      
+      <div class="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-zinc-200">
+        {history.map((item, index) => (
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-orange-600 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
+            
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-6 rounded-2xl border border-zinc-200 bg-white shadow-sm">
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="font-bold text-zinc-900 text-lg">{item.title}</h3>
+                <span class="font-black text-orange-600">{item.year}</span>
+              </div>
+              <p class="text-zinc-500">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
 
   </main>
 </BaseLayout>
