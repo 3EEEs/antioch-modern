@@ -9,7 +9,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  // Switch to hybrid and add the Netlify adapter
-  output: 'hybrid',
+  output: 'static', // Astro 6 handles the server routes automatically now!
   adapter: netlify(),
 });
