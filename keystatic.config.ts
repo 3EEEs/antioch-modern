@@ -2,8 +2,8 @@ import { config, fields, singleton, collection } from '@keystatic/core';
 
 export default config({
   storage: { 
-    kind: 'github',
-    repo: '3EEEs/antioch-modern' // Make sure this matches your exact repo name!
+    kind: 'cloud',
+    project: '3EEEs/antioch-modern' // Paste the exact project name from Keystatic Cloud here
   },
   singletons: {
     homePage: singleton({
